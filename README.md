@@ -3,6 +3,10 @@ Paper ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/
 
 High performance Spigot fork that aims to fix gameplay and mechanics inconsistencies.
 
+Custom things:
+- Maxed enchants for Librarians
+- Faster hatching for turtle eggs
+
 
 **Support and Project Discussion:**
  - [IRC](https://webchat.esper.net/?channels=paper) or [Discord](https://discord.gg/papermc)
