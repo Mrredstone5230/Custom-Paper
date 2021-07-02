@@ -1,4 +1,4 @@
-Paper ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/PaperMC/Paper/Build%20Paper/master)
+My paper fork !!
 ===========
 
 High performance Spigot fork that aims to fix gameplay and mechanics inconsistencies.
@@ -6,24 +6,13 @@ High performance Spigot fork that aims to fix gameplay and mechanics inconsisten
 Custom things:
 - Maxed enchants for Librarians
 - Faster hatching for turtle eggs
-
-
-**Support and Project Discussion:**
- - [IRC](https://webchat.esper.net/?channels=paper) or [Discord](https://discord.gg/papermc)
  
 
 How To (Server Admins)
 ------
-Paperclip is a jar file that you can download and run just like a normal jar file.
+See the releases page.
 
-Download Paper from our [downloads page](https://papermc.io/downloads).
-
-Run the Paperclip jar directly from your server. Just like old times
-
-  * Documentation on using Paper: [paper.readthedocs.io](https://paper.readthedocs.io/)
-  * For a sneak peak on upcoming features, [see here](https://github.com/PaperMC/Paper/projects)
-
-How To (Plugin Developers)
+How To (Plugin Developers) (Same as the normal paper stuff)
 ------
  * See our API patches [here](Spigot-API-Patches)
  * See upcoming, pending, and recently added API [here](https://github.com/PaperMC/Paper/projects/6)
