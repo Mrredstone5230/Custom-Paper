@@ -1,5 +1,4 @@
-Paper ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/PaperMC/Paper/Build%20Paper/master) ![Read the Docs (version)](https://img.shields.io/readthedocs/paper/latest) ![version](https://img.shields.io/badge/version-1.17.1-9fc) ![Sonatype Nexus (Query Options)](https://img.shields.io/nexus/maven-snapshots/io.papermc.paper/paper-api?label=repo&server=https%3A%2F%2Fpapermc.io%2Frepo) 
-[![Discord](https://img.shields.io/discord/289587909051416579.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/papermc)
+My custom Paper Fork ![GitHub Workflow Status (branch)](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fwww.redserv.net%2Fjenkins%2Fjob%2FCustom%2520Paper%2F)
 ===========
 
 High performance Spigot fork that aims to fix gameplay and mechanics inconsistencies.
@@ -7,20 +6,19 @@ High performance Spigot fork that aims to fix gameplay and mechanics inconsisten
 
 **Support and Project Discussion:**
  - [IRC](https://webchat.esper.net/?channels=paper) or [Discord](https://discord.gg/papermc)
- 
+
+Custom Features
+------
+* Faster turtle egg hatch time
+* Maxed book level for villagers 
 
 How To (Server Admins)
 ------
-Paperclip is a jar file that you can download and run just like a normal jar file.
+Download Paper [here](https://www.redserv.net/jenkins/job/Custom%20Paper/lastSuccessfulBuild/artifact/Paper-Server/build/libs/Paper-Server-reobf.jar) or from the [Jenkins page](https://www.redserv.net/jenkins/job/Custom%20Paper/lastSuccessfulBuild).
 
-Download Paper from our [downloads page](https://papermc.io/downloads).
 
-Run the Paperclip jar directly from your server. Just like old times
 
-  * Documentation on using Paper: [paper.readthedocs.io](https://paper.readthedocs.io/)
-  * For a sneak peak on upcoming features, [see here](https://github.com/PaperMC/Paper/projects)
-
-How To (Plugin Developers)
+How To (Plugin Developers) (Same as normal paper)
 ------
  * See our API patches [here](patches/api)
  * See upcoming, pending, and recently added API [here](https://github.com/PaperMC/Paper/projects/6)
