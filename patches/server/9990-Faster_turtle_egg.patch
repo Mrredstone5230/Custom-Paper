@@ -1,0 +1,17 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Wed, 30 Jun 2021 22:11:11 +0100
+Subject: Faster turtle egg
+
+diff --git a/src/main/java/net/minecraft/world/level/block/TurtleEggBlock.java b/src/main/java/net/minecraft/world/level/block/TurtleEggBlock.java
+--- a/src/main/java/net/minecraft/world/level/block/TurtleEggBlock.java	(revision 8d4cdd0f8812c9be2bdcb614dead9b5d71610705)
++++ b/src/main/java/net/minecraft/world/level/block/TurtleEggBlock.java	(date 1625172017700)
+@@ -154,7 +154,7 @@
+     private boolean shouldUpdateHatchLevel(Level world) {
+         float f = world.getTimeOfDay(1.0F);
+ 
+-        return (double) f < 0.69D && (double) f > 0.65D ? true : world.random.nextInt(500) == 0;
++        return (double) f < 0.69D && (double) f > 0.65D ? true : world.random.nextInt(1) == 0;
+     }
+ 
+     @Override
