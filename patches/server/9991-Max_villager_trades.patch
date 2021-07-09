@@ -1,7 +1,7 @@
-Index: src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mrredstone5230 <sebastienduf@icloud.com>
 Date: Fri, 2 Jul 2021 22:11:11 +0100
-Subject: Faster turtle egg
+Subject: Maxed villager trades
 
 diff --git a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java b/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
 --- a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java	(revision 0017ff1c5ed9d1e034fbad7f5677a9ee461ba270)
