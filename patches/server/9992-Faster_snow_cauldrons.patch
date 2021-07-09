@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Fri, 9 Jul 2021 22:11:11 +0100
+Subject: Faster cauldrons
+
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java	(revision 2ac437158534fd5d91e784f5dd1ff90db5397ec9)
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java	(date 1625873594053)
+@@ -729,7 +729,7 @@
+         }
+ 
+         gameprofilerfiller.popPush("iceandsnow");
+-        if (!this.paperConfig.disableIceAndSnow && this.random.nextInt(16) == 0) { // Paper - Disable ice and snow
++        if (!this.paperConfig.disableIceAndSnow) { // Paper - Disable ice and snow
+             blockposition = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(j, 0, k, 15));
+             BlockPos blockposition1 = blockposition.below();
+             Biome biomebase = this.getBiome(blockposition);
+Index: src/main/java/net/minecraft/world/level/block/CauldronBlock.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+diff --git a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
+new file mode 100644
+--- /dev/null	(date 1625874202225)
++++ b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java	(date 1625874202225)
+@@ -0,0 +1,69 @@
++package net.minecraft.world.level.block;
++
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.cauldron.CauldronInteraction;
++import net.minecraft.world.entity.Entity;
++import net.minecraft.world.level.Level;
++import net.minecraft.world.level.biome.Biome.Precipitation;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
++import net.minecraft.world.level.gameevent.GameEvent;
++import net.minecraft.world.level.material.Fluid;
++import net.minecraft.world.level.material.Fluids;
++
++public class CauldronBlock extends AbstractCauldronBlock {
++    private static final float RAIN_FILL_CHANCE = 0.05F;
++    private static final float POWDER_SNOW_FILL_CHANCE = 0.1F;
++
++    public CauldronBlock(Properties settings) {
++        super(settings, CauldronInteraction.EMPTY);
++    }
++
++    @Override
++    public boolean isFull(BlockState state) {
++        return false;
++    }
++
++    protected static boolean shouldHandlePrecipitation(Level world, Precipitation precipitation) {
++        if (precipitation == Precipitation.RAIN) {
++            return world.getRandom().nextFloat() < 0.05F;
++        } else if (precipitation == Precipitation.SNOW) {
++            return true;
++        } else {
++            return false;
++        }
++    }
++
++    @Override
++    public void handlePrecipitation(BlockState state, Level world, BlockPos pos, Precipitation precipitation) {
++        if (shouldHandlePrecipitation(world, precipitation)) {
++            if (precipitation == Precipitation.RAIN) {
++                world.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState());
++                world.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pos);
++            } else if (precipitation == Precipitation.SNOW) {
++                world.setBlockAndUpdate(pos, Blocks.POWDER_SNOW_CAULDRON.defaultBlockState());
++                world.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pos);
++            }
++
++        }
++    }
++
++    @Override
++    protected boolean canReceiveStalactiteDrip(Fluid fluid) {
++        return true;
++    }
++
++    @Override
++    protected void receiveStalactiteDrip(BlockState state, Level world, BlockPos pos, Fluid fluid) {
++        if (fluid == Fluids.WATER) {
++            world.setBlockAndUpdate(pos, Blocks.WATER_CAULDRON.defaultBlockState());
++            world.levelEvent(1047, pos, 0);
++            world.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pos);
++        } else if (fluid == Fluids.LAVA) {
++            world.setBlockAndUpdate(pos, Blocks.LAVA_CAULDRON.defaultBlockState());
++            world.levelEvent(1046, pos, 0);
++            world.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pos);
++        }
++
++    }
++}

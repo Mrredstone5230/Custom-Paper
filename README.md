@@ -10,7 +10,8 @@ High performance Spigot fork that aims to fix gameplay and mechanics inconsisten
 Custom Features
 ------
 * Faster turtle egg hatch time
-* Maxed book level for villagers 
+* Maxed book level for villagers
+* Faster water/snow cauldrons, but mainly snow
 
 How To (Server Admins)
 ------
