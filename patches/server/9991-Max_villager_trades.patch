@@ -4,14 +4,15 @@ Date: Fri, 2 Jul 2021 22:11:11 +0100
 Subject: Maxed villager trades
 
 diff --git a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java b/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
---- a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java	(revision 0017ff1c5ed9d1e034fbad7f5677a9ee461ba270)
-+++ b/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java	(date 1625237891499)
-@@ -186,7 +186,7 @@
+index 314617cb0..190dc7656 100644
+--- a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
++++ b/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
+@@ -186,7 +186,7 @@ public class VillagerTrades {
          public MerchantOffer getOffer(Entity entity, Random random) {
              List<Enchantment> list = Registry.ENCHANTMENT.stream().filter(Enchantment::isTradeable).collect(Collectors.toList());
              Enchantment enchantment = list.get(random.nextInt(list.size()));
 -            int i = Mth.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
-+            int i = enchantment.getMaxLevel(); //Mth.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
++            int i = enchantment.getMaxLevel();
              ItemStack itemStack = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, i));
              int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
              if (enchantment.isTreasureOnly()) {
