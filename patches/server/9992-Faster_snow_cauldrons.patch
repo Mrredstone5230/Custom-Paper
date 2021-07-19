@@ -4,9 +4,10 @@ Date: Fri, 9 Jul 2021 22:11:11 +0100
 Subject: Faster cauldrons
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
---- a/src/main/java/net/minecraft/server/level/ServerLevel.java	(revision 2ac437158534fd5d91e784f5dd1ff90db5397ec9)
-+++ b/src/main/java/net/minecraft/server/level/ServerLevel.java	(date 1625873594053)
-@@ -729,7 +729,7 @@
+index 6ecf60c69..cc25ea8c1 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -729,7 +729,7 @@ public class ServerLevel extends net.minecraft.world.level.Level implements Worl
          }
  
          gameprofilerfiller.popPush("iceandsnow");
@@ -15,15 +16,12 @@ diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/mai
              blockposition = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(j, 0, k, 15));
              BlockPos blockposition1 = blockposition.below();
              Biome biomebase = this.getBiome(blockposition);
-Index: src/main/java/net/minecraft/world/level/block/CauldronBlock.java
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
 diff --git a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
-new file mode 100644
---- /dev/null	(date 1625874202225)
-+++ b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java	(date 1625874202225)
-@@ -0,0 +1,69 @@
+index 64de3d52a..86eb427d6 100644
+--- a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
+@@ -1,2 +1,69 @@
+-package net.minecraft.world.level.block;public class CauldronBlock {
 +package net.minecraft.world.level.block;
 +
 +import net.minecraft.core.BlockPos;
@@ -92,4 +90,4 @@ new file mode 100644
 +        }
 +
 +    }
-+}
+ }
