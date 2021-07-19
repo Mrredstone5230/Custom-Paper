@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mrredstone5230 <sebastienduf@icloud.com>
 Date: Fri, 9 Jul 2021 22:11:11 +0100
-Subject: Faster cauldrons
+Subject: Faster Snow Cauldrons
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
 index 6ecf60c69..cc25ea8c1 100644
