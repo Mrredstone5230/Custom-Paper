@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Fri, 23 Jul 2021 22:11:11 +0100
+Subject: Instant minable deepslate
+
+diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
+index af4287e2f..4a509488b 100644
+--- a/src/main/java/net/minecraft/world/level/block/Blocks.java
++++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
+@@ -1001,7 +1001,7 @@ public class Blocks {
+     public static final Block SMALL_DRIPLEAF = register("small_dripleaf", new SmallDripleafBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().instabreak().sound(SoundType.SMALL_DRIPLEAF)));
+     public static final Block HANGING_ROOTS = register("hanging_roots", new HangingRootsBlock(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.DIRT).noCollission().instabreak().sound(SoundType.HANGING_ROOTS)));
+     public static final Block ROOTED_DIRT = register("rooted_dirt", new RootedDirtBlock(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.DIRT).strength(0.5F).sound(SoundType.ROOTED_DIRT)));
+-    public static final Block DEEPSLATE = register("deepslate", new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE)));
++    public static final Block DEEPSLATE = register("deepslate", new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE).requiresCorrectToolForDrops().strength(1.5F, 6.0F).sound(SoundType.DEEPSLATE)));
+     public static final Block COBBLED_DEEPSLATE = register("cobbled_deepslate", new Block(BlockBehaviour.Properties.copy(DEEPSLATE).strength(3.5F, 6.0F)));
+     public static final Block COBBLED_DEEPSLATE_STAIRS = register("cobbled_deepslate_stairs", new StairBlock(COBBLED_DEEPSLATE.defaultBlockState(), BlockBehaviour.Properties.copy(COBBLED_DEEPSLATE)));
+     public static final Block COBBLED_DEEPSLATE_SLAB = register("cobbled_deepslate_slab", new SlabBlock(BlockBehaviour.Properties.copy(COBBLED_DEEPSLATE)));
+
