@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Fri, 23 Jul 2021 22:11:11 +0100
+Subject: Better Trident Drop (Even better on hard)
+
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Drowned.java b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
+index 50228e59d..6962a4e6a 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Drowned.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Drowned.java
+@@ -147,8 +147,8 @@ public class Drowned extends Zombie implements RangedAttackMob {
+
+     @Override
+     protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty) {
+-        if ((double)this.random.nextFloat() > 0.9D) {
+-            int i = this.random.nextInt(16);
++        if ((difficulty.isHard() && (double)this.random.nextFloat() >= 0.1D) || (double)this.random.nextFloat() > 0.8D) {
++            int i = this.random.nextInt(difficulty.isHard() ? 10 : 13);
+             if (i < 10) {
+                 this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.TRIDENT));
+             } else {

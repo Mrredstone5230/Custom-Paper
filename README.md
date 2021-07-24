@@ -13,6 +13,7 @@ Custom Features
 * Maxed book level for villagers
 * Faster water/snow cauldrons, but mainly snow
 * Instant-minable deepslate (No sound for the client though :\)
+* Better trident spawn rate
 
 How To (Server Admins)
 ------
