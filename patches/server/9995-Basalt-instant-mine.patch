@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Fri, 28 Jul 2021 22:11:11 +0100
+Subject: Instant minable deepslate
+
+diff --git a/src/main/java/net/minecraft/world/level/block/Blocks.java b/src/main/java/net/minecraft/world/level/block/Blocks.java
+index 4a509488b..86e97d22f 100644
+--- a/src/main/java/net/minecraft/world/level/block/Blocks.java
++++ b/src/main/java/net/minecraft/world/level/block/Blocks.java
+@@ -260,7 +260,7 @@ public class Blocks {
+     public static final Block NETHERRACK = register("netherrack", new NetherrackBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER).requiresCorrectToolForDrops().strength(0.4F).sound(SoundType.NETHERRACK)));
+     public static final Block SOUL_SAND = register("soul_sand", new SoulSandBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_BROWN).strength(0.5F).speedFactor(0.4F).sound(SoundType.SOUL_SAND).isValidSpawn(Blocks::always).isRedstoneConductor(Blocks::always).isViewBlocking(Blocks::always).isSuffocating(Blocks::always)));
+     public static final Block SOUL_SOIL = register("soul_soil", new Block(BlockBehaviour.Properties.of(Material.DIRT, MaterialColor.COLOR_BROWN).strength(0.5F).sound(SoundType.SOUL_SOIL)));
+-    public static final Block BASALT = register("basalt", new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.25F, 4.2F).sound(SoundType.BASALT)));
++    public static final Block BASALT = register("basalt", new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(0.4F, 4.2F).sound(SoundType.BASALT)));
+     public static final Block POLISHED_BASALT = register("polished_basalt", new RotatedPillarBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().strength(1.25F, 4.2F).sound(SoundType.BASALT)));
+     public static final Block SOUL_TORCH = register("soul_torch", new TorchBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().instabreak().lightLevel((state) -> {
+         return 10;

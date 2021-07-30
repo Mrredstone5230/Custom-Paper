@@ -14,6 +14,7 @@ Custom Features
 * Faster water/snow cauldrons, but mainly snow
 * Instant-minable deepslate (No sound for the client though :\)
 * Better trident spawn rate
+* Instant-minable basalt (No sound for the client though :\)
 
 How To (Server Admins)
 ------
