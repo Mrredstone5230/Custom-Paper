@@ -1352,7 +1352,7 @@ index 25a6f9313a1953def7470e411b53016f2ca14bef..d7a4cfed4f46b34f83fb2c07bdab5a71
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb8823e02d 100644
+index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955dfa653edb3 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -33,7 +33,28 @@ import org.jetbrains.annotations.Nullable;
@@ -1525,19 +1525,11 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
      /**
       * Says a message (or runs a command).
       *
-@@ -475,6 +556,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -475,6 +556,26 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Deprecated
      public boolean sendChunkChange(@NotNull Location loc, int sx, int sy, int sz, @NotNull byte[] data);
  
 +    // Paper start
-     /**
-      * Send a sign change. This fakes a sign change packet for a user at
-      * a certain location. This will not actually change the world in any way.
-@@ -490,6 +572,43 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-      * @throws IllegalArgumentException if location is null
-      * @throws IllegalArgumentException if lines is non-null and has a length less than 4
-      */
-+    void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines) throws IllegalArgumentException;
 +    /**
 +     * Send a sign change. This fakes a sign change packet for a user at
 +     * a certain location. This will not actually change the world in any way.
@@ -1550,13 +1542,72 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
 +     *
 +     * @param loc the location of the sign
 +     * @param lines the new text on the sign or null to clear it
-+     * @param  dyeColor the color of the sign
++     * @throws IllegalArgumentException if location is null
++     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     */
++    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines) throws IllegalArgumentException {
++        this.sendSignChange(loc, lines, DyeColor.BLACK);
++    }
++
+     /**
+      * Send a sign change. This fakes a sign change packet for a user at
+      * a certain location. This will not actually change the world in any way.
+@@ -487,9 +588,75 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      *
+      * @param loc the location of the sign
+      * @param lines the new text on the sign or null to clear it
++     * @param dyeColor the color of the sign
+      * @throws IllegalArgumentException if location is null
++     * @throws IllegalArgumentException if dyeColor is null
+      * @throws IllegalArgumentException if lines is non-null and has a length less than 4
+      */
++    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException {
++        this.sendSignChange(loc, lines, dyeColor, false);
++    }
++
++    /**
++     * Send a sign change. This fakes a sign change packet for a user at
++     * a certain location. This will not actually change the world in any way.
++     * This method will use a sign at the location's block or a faked sign
++     * sent via
++     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.Material, byte)}.
++     * <p>
++     * If the client does not have a sign at the given location it will
++     * display an error message to the user.
++     *
++     * @param loc the location of the sign
++     * @param lines the new text on the sign or null to clear it
++     * @param hasGlowingText whether the text of the sign should glow as if dyed with a glowing ink sac
 +     * @throws IllegalArgumentException if location is null
 +     * @throws IllegalArgumentException if dyeColor is null
 +     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
 +     */
-+    void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
++    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines, boolean hasGlowingText) throws IllegalArgumentException {
++        this.sendSignChange(loc, lines, DyeColor.BLACK, hasGlowingText);
++    }
++
++    /**
++     * Send a sign change. This fakes a sign change packet for a user at
++     * a certain location. This will not actually change the world in any way.
++     * This method will use a sign at the location's block or a faked sign
++     * sent via
++     * {@link #sendBlockChange(org.bukkit.Location, org.bukkit.Material, byte)}.
++     * <p>
++     * If the client does not have a sign at the given location it will
++     * display an error message to the user.
++     *
++     * @param loc the location of the sign
++     * @param lines the new text on the sign or null to clear it
++     * @param dyeColor the color of the sign
++     * @param hasGlowingText whether the text of the sign should glow as if dyed with a glowing ink sac
++     * @throws IllegalArgumentException if location is null
++     * @throws IllegalArgumentException if dyeColor is null
++     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     */
++    void sendSignChange(@NotNull Location loc, @Nullable java.util.List<net.kyori.adventure.text.Component> lines, @NotNull DyeColor dyeColor, boolean hasGlowingText)
++        throws IllegalArgumentException;
 +    // Paper end
++
 +    /**
 +     * Send a sign change. This fakes a sign change packet for a user at
 +     * a certain location. This will not actually change the world in any way.
@@ -1576,8 +1627,8 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
 +    @Deprecated // Paper
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines) throws IllegalArgumentException;
  
- 
-@@ -509,7 +628,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     /**
+@@ -508,7 +675,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if dyeColor is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
@@ -1587,7 +1638,17 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
  
      /**
-@@ -1247,6 +1368,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -528,7 +697,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      * @throws IllegalArgumentException if location is null
+      * @throws IllegalArgumentException if dyeColor is null
+      * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     * @deprecated Deprecated in favour of {@link #sendSignChange(Location, java.util.List, DyeColor, boolean)}
+      */
++    @Deprecated // Paper
+     public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor, boolean hasGlowingText) throws IllegalArgumentException;
+ 
+     /**
+@@ -1266,6 +1437,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public int getClientViewDistance();
  
@@ -1602,7 +1663,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
      /**
       * Gets the player's estimated ping in milliseconds.
       *
-@@ -1272,8 +1401,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1291,8 +1470,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * they wish.
       *
       * @return the player's locale
@@ -1613,7 +1674,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
      public String getLocale();
  
      /**
-@@ -1291,6 +1422,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1310,6 +1491,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void openBook(@NotNull ItemStack book);
  
@@ -1628,7 +1689,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
      // Spigot start
      public class Spigot extends Entity.Spigot {
  
-@@ -1345,11 +1484,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1364,11 +1553,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
              throw new UnsupportedOperationException("Not supported yet.");
          }
  
@@ -1642,7 +1703,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
          @Override
          public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
-@@ -1360,7 +1501,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1379,7 +1570,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param component the components to send
@@ -1652,7 +1713,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1370,7 +1513,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1389,7 +1582,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param components the components to send
@@ -1662,7 +1723,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1381,7 +1526,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1400,7 +1595,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param component the components to send
@@ -1672,7 +1733,7 @@ index edf4623a831442e1f06daabc402a3f32610dd519..8ed69c4be84db742f2ff53adfd40f9eb
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @Nullable UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1392,7 +1539,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1411,7 +1608,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param components the components to send
