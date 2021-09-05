@@ -4,18 +4,18 @@ Date: Fri, 9 Jul 2021 22:11:11 +0100
 Subject: Faster Snow Cauldrons
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 6ecf60c69..cc25ea8c1 100644
+index cebaf0fb8..2114a64a7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -729,7 +729,7 @@ public class ServerLevel extends net.minecraft.world.level.Level implements Worl
+@@ -867,7 +867,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          }
- 
+
          gameprofilerfiller.popPush("iceandsnow");
--        if (!this.paperConfig.disableIceAndSnow && this.random.nextInt(16) == 0) { // Paper - Disable ice and snow
-+        if (!this.paperConfig.disableIceAndSnow) { // Paper - Disable ice and snow
-             blockposition = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, this.getBlockRandomPos(j, 0, k, 15));
-             BlockPos blockposition1 = blockposition.below();
-             Biome biomebase = this.getBiome(blockposition);
+-         if (!this.paperConfig.disableIceAndSnow && this.randomTickRandom.nextInt(16) == 0) { // Paper - Disable ice and snow // Paper - optimise random ticking
++         if (!this.paperConfig.disableIceAndSnow) { // Paper - Disable ice and snow // Paper - optimise random ticking
+             // Paper start - optimise chunk ticking
+             this.getRandomBlockPosition(j, 0, k, 15, blockposition);
+             int normalY = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, blockposition.getX() & 15, blockposition.getZ() & 15) + 1;
 diff --git a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java b/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
 index dbae4f3b5..d02a36eba 100644
 --- a/src/main/java/net/minecraft/world/level/block/CauldronBlock.java
