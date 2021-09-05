@@ -15,6 +15,7 @@ Custom Features
 * Instant-minable deepslate (No sound for the client though :\)
 * Better trident spawn rate
 * Instant-minable basalt (No sound for the client though :\)
+* Faster Goat Attacks
 
 How To (Server Admins)
 ------
