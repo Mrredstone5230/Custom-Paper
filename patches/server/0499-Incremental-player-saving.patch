@@ -5,7 +5,7 @@ Subject: [PATCH] Incremental player saving
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 0ff0a71fe5dc53fa5fb81edffabc69790e3bcd1e..d74f0bdabd64976bf8608f2a5d8f2dc6118a35f2 100644
+index 4b02a035cec0aa260e67f77c7025d2fb0e85f2eb..0b23250cbbfd947568afcb8c4510b7dea4468380 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -462,4 +462,14 @@ public class PaperConfig {
@@ -24,7 +24,7 @@ index 0ff0a71fe5dc53fa5fb81edffabc69790e3bcd1e..d74f0bdabd64976bf8608f2a5d8f2dc6
 +    }
  }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 186193d1d652876e9ad7cdf5223ec2c6f5c65779..5595fc75df984b3d21f78759cb76f5b4018ff550 100644
+index 58652325de8c3978359a9864bb68da9347990774..4af56ca699d456eb23794673861323ab06cf6de8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -981,7 +981,6 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -54,7 +54,7 @@ index 186193d1d652876e9ad7cdf5223ec2c6f5c65779..5595fc75df984b3d21f78759cb76f5b4
          } // Paper start
          for (ServerLevel level : this.getAllLevels()) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index f1cd338942d709e3d2d8de40241fe6e14bcba062..d4ab5061026eaff96b917427fd278ae06e103c6d 100644
+index 74b68679d311017246d49c37f3cd17f938f3b57f..d8df3bcf6ddd87e9fa932f01a41a48a641328f9d 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -175,6 +175,7 @@ public class ServerPlayer extends Player {
@@ -66,7 +66,7 @@ index f1cd338942d709e3d2d8de40241fe6e14bcba062..d4ab5061026eaff96b917427fd278ae0
      private static final int NEUTRAL_MOB_DEATH_NOTIFICATION_RADII_Y = 10;
      public ServerGamePacketListenerImpl connection;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 476a3a317779fdecbced48caa85f6835c54eb018..9a73364f4d56f3a7cecb27bc8034166b8f5731b9 100644
+index 34f56db51e2c6a1c451f95d0fa3cb5c368b1ecf7..2c7dcf5eabc8fe99f78e71493ac96b7f065110a2 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -570,6 +570,7 @@ public abstract class PlayerList {
@@ -77,7 +77,7 @@ index 476a3a317779fdecbced48caa85f6835c54eb018..9a73364f4d56f3a7cecb27bc8034166b
          this.playerIo.save(player);
          ServerStatsCounter serverstatisticmanager = (ServerStatsCounter) player.getStats(); // CraftBukkit
  
-@@ -1208,10 +1209,21 @@ public abstract class PlayerList {
+@@ -1209,10 +1210,21 @@ public abstract class PlayerList {
      }
  
      public void saveAll() {

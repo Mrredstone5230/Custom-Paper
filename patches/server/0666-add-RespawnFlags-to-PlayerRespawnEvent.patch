@@ -5,7 +5,7 @@ Subject: [PATCH] add RespawnFlags to PlayerRespawnEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 08c7eeb53266fe003be1c86bb3afe33c7335f0f8..18c36a21d3ef1f439fa7ef625609a5eb59e63ae9 100644
+index c3d69e12e1773be0638a5a7cd1e8a75110491894..b2925d150a98ffb25cbf3c72f6df2abd862dae44 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2461,7 +2461,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -18,7 +18,7 @@ index 08c7eeb53266fe003be1c86bb3afe33c7335f0f8..18c36a21d3ef1f439fa7ef625609a5eb
                  } else {
                      if (this.player.getHealth() > 0.0F) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index ddd5f1187183f397c4ddf1fb8f9eaac72b7fd2f9..2ddd973d955d170fd04a56ee5ae95fba29016793 100644
+index cc366a3c06cfaa08a6503ecf728c061a8898f02f..34dd85bbaa2e693d9b6a4db880b42501b3b9225c 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -808,6 +808,12 @@ public abstract class PlayerList {
@@ -34,7 +34,7 @@ index ddd5f1187183f397c4ddf1fb8f9eaac72b7fd2f9..2ddd973d955d170fd04a56ee5ae95fba
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
-@@ -898,7 +904,7 @@ public abstract class PlayerList {
+@@ -899,7 +905,7 @@ public abstract class PlayerList {
              }
  
              Player respawnPlayer = entityplayer1.getBukkitEntity();

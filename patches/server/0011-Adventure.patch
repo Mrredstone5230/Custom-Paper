@@ -7,7 +7,7 @@ Co-authored-by: zml <zml@stellardrift.ca>
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 666d956d0417d02a3c9e78a688edbe66e42cce18..f5155d4b48f17c82b7a637418c40ffcdc6cc6271 100644
+index c6a38fefbb1c0e0483a1d0468dd4e7c2b3881097..4a2edc70432a45931fcc0e98be3ca900df02814b 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -222,4 +222,13 @@ public class PaperConfig {
@@ -114,10 +114,10 @@ index 0000000000000000000000000000000000000000..e597a90def72c5903382d7169fb7a2fb
 +}
 diff --git a/src/main/java/io/papermc/paper/adventure/ChatProcessor.java b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..185a6d966711628e8937e8ab16f807bffd713c6d
+index 0000000000000000000000000000000000000000..0bc2c2ef9312ebcc32dacdd2ba9f17d2ba072586
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/adventure/ChatProcessor.java
-@@ -0,0 +1,224 @@
+@@ -0,0 +1,228 @@
 +package io.papermc.paper.adventure;
 +
 +import io.papermc.paper.chat.ChatRenderer;
@@ -162,6 +162,7 @@ index 0000000000000000000000000000000000000000..185a6d966711628e8937e8ab16f807bf
 +        })
 +        .build();
 +    // copied from adventure-text-serializer-legacy -->
++    private static final String DEFAULT_LEGACY_FORMAT = "<%1$s> %2$s"; // copied from PlayerChatEvent/AsyncPlayerChatEvent
 +    final MinecraftServer server;
 +    final ServerPlayer player;
 +    final String message;
@@ -316,6 +317,9 @@ index 0000000000000000000000000000000000000000..185a6d966711628e8937e8ab16f807bf
 +    }
 +
 +    private static ChatRenderer legacyRenderer(final String format) {
++        if (DEFAULT_LEGACY_FORMAT.equals(format)) {
++            return ChatRenderer.defaultRenderer();
++        }
 +        return ChatRenderer.viewerUnaware((player, displayName, message) -> PaperAdventure.LEGACY_SECTION_UXRC.deserialize(String.format(format, legacyDisplayName((CraftPlayer) player), PaperAdventure.LEGACY_SECTION_UXRC.serialize(message))).replaceText(URL_REPLACEMENT_CONFIG));
 +    }
 +
@@ -1480,7 +1484,7 @@ index b632280e057ae6893bf5ebcde75cefac3ee62a09..9baa56d6da9c24706f1dbc8851fd68ca
  
                  @Override
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c731f22390773bcd43d392b86ae5b42b0da27c1f..14cf49b910bd789f1dd61d303b88d53a93c3abd6 100644
+index 956fed13f641d87a8d117ba30e84a4138c9d1a30..9d1aac0af9c96775beee40cc907a8593a731a35d 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
@@ -1594,7 +1598,7 @@ index c731f22390773bcd43d392b86ae5b42b0da27c1f..14cf49b910bd789f1dd61d303b88d53a
              return null;
          }
          return entity;
-@@ -1117,7 +1118,7 @@ public abstract class PlayerList {
+@@ -1118,7 +1119,7 @@ public abstract class PlayerList {
      public void removeAll() {
          // CraftBukkit start - disconnect safely
          for (ServerPlayer player : this.players) {
@@ -1713,10 +1717,10 @@ index 7a0e7961df1e62b311ea2ecc76d7343a8646723b..6859fafa42527d45366018f737c19e6c
                  }
                  collection = icons;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78b4beacd3 100644
+index b6985eec04fb790bd4dd65f836b6e75728810b29..c92dd103f4a7f5d122ef5e49ac5582ec8fb156eb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -582,8 +582,10 @@ public final class CraftServer implements Server {
+@@ -588,8 +588,10 @@ public final class CraftServer implements Server {
      }
  
      @Override
@@ -1727,7 +1731,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      }
  
      @Override
-@@ -1405,7 +1407,15 @@ public final class CraftServer implements Server {
+@@ -1423,7 +1425,15 @@ public final class CraftServer implements Server {
          return this.configuration.getInt("settings.spawn-radius", -1);
      }
  
@@ -1743,7 +1747,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      public String getShutdownMessage() {
          return this.configuration.getString("settings.shutdown-message");
      }
-@@ -1558,7 +1568,20 @@ public final class CraftServer implements Server {
+@@ -1576,7 +1586,20 @@ public final class CraftServer implements Server {
      }
  
      @Override
@@ -1764,7 +1768,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
          Set<CommandSender> recipients = new HashSet<>();
          for (Permissible permissible : this.getPluginManager().getPermissionSubscriptions(permission)) {
              if (permissible instanceof CommandSender && permissible.hasPermission(permission)) {
-@@ -1566,14 +1589,14 @@ public final class CraftServer implements Server {
+@@ -1584,14 +1607,14 @@ public final class CraftServer implements Server {
              }
          }
  
@@ -1781,7 +1785,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
  
          for (CommandSender recipient : recipients) {
              recipient.sendMessage(message);
-@@ -1809,6 +1832,14 @@ public final class CraftServer implements Server {
+@@ -1827,6 +1850,14 @@ public final class CraftServer implements Server {
          return CraftInventoryCreator.INSTANCE.createInventory(owner, type);
      }
  
@@ -1796,7 +1800,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      @Override
      public Inventory createInventory(InventoryHolder owner, InventoryType type, String title) {
          Validate.isTrue(type.isCreatable(), "Cannot open an inventory of type ", type);
-@@ -1821,13 +1852,28 @@ public final class CraftServer implements Server {
+@@ -1839,13 +1870,28 @@ public final class CraftServer implements Server {
          return CraftInventoryCreator.INSTANCE.createInventory(owner, size);
      }
  
@@ -1825,7 +1829,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      public Merchant createMerchant(String title) {
          return new CraftMerchantCustom(title == null ? InventoryType.MERCHANT.getDefaultTitle() : title);
      }
-@@ -1871,6 +1917,12 @@ public final class CraftServer implements Server {
+@@ -1894,6 +1940,12 @@ public final class CraftServer implements Server {
          return Thread.currentThread().equals(console.serverThread) || this.console.hasStopped() || !org.spigotmc.AsyncCatcher.enabled; // All bets are off if we have shut down (e.g. due to watchdog)
      }
  
@@ -1838,7 +1842,7 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      @Override
      public String getMotd() {
          return this.console.getMotd();
-@@ -2308,5 +2360,15 @@ public final class CraftServer implements Server {
+@@ -2336,5 +2388,15 @@ public final class CraftServer implements Server {
              return null;
          }
      }
@@ -1855,18 +1859,18 @@ index 323b44d2c8f2e993c96e61d3ecec1ca6754b137e..5bc1aa82b825bb41c2dd55836a0cfd78
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 62252343490fb1e96c2ec48113e2e3ce741930b6..8c47fbd10b634daf24eb14949b124ee87d87ff73 100644
+index e0c16ef149a7cdcb703b6f9f061cf47ce38aeefa..0b846204ba0e08ead4ca044505efe91f23c116e4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -130,6 +130,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
-     private int waterAnimalSpawn = -1;
+@@ -131,6 +131,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      private int waterAmbientSpawn = -1;
+     private int waterUndergroundCreatureSpawn = -1;
      private int ambientSpawn = -1;
 +    private net.kyori.adventure.pointer.Pointers adventure$pointers; // Paper - implement pointers
  
      private static final Random rand = new Random();
  
-@@ -1751,4 +1752,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -1776,4 +1777,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          return this.spigot;
      }
      // Spigot end
@@ -1903,7 +1907,7 @@ index 11d1bc56439ff867224ef1c2058aee67ba0ee332..52f78b8a3d4588f9aba10c8aea4d36cb
          OptionParser parser = new OptionParser() {
              {
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBeacon.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBeacon.java
-index ff7740d5fb54c7a27638c69a1c0e45191aa71a11..22e9245b0a0d30972980c6c13a22cb4501c3d3ca 100644
+index 9d55f36f146435f0cfb4e62ffa7c94eab404a596..c186a44b927188ed222f8b2f8f76aaef35d9c654 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftBeacon.java
 +++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBeacon.java
 @@ -68,6 +68,19 @@ public class CraftBeacon extends CraftBlockEntityState<BeaconBlockEntity> implem

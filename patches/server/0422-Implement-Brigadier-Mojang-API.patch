@@ -10,10 +10,10 @@ Adds CommandRegisteredEvent
   - Allows manipulating the CommandNode to add more children/metadata for the client
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 5543c8e30c707d7cee5fd0579dd3d3dd7c26a13e..eea412347cef390555166a988058ae877afdfa4a 100644
+index c981944f4a5d40ec14ade9aaa22041887a317e1f..2c39461ce531cfa8fc0aa6928e0de819640b0553 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -17,6 +17,7 @@ repositories {
+@@ -16,6 +16,7 @@ repositories {
  
  dependencies {
      implementation(project(":Paper-API"))

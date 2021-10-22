@@ -22,7 +22,7 @@ chunk-loading:
   target-player-chunk-send-rate: 100.0
   global-max-chunk-send-rate: -1
   enable-frustum-priority: false
-  global-max-chunk-load-rate: 300.0
+  global-max-chunk-load-rate: -1.0
   player-max-concurrent-loads: 4.0
   global-max-concurrent-loads: 500.0
 ```
@@ -58,7 +58,7 @@ because the client can bug out due to the out of order
 chunk sending.
 
 global-max-chunk-load-rate - The maximum chunk load rate
-for the whole server.
+for the whole server. -1 means no limit
 
 player-max-concurrent-loads and global-max-concurrent-loads
 The maximum number of concurrent loads for the server is
@@ -80,10 +80,10 @@ index cfe293881f68c8db337c3a48948362bb7b3e3522..7d44abcb4fff9717a1af55879deb7eb9
          }));
  
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index bc4081483a228aa275511d28231d615fe0f36d4e..be132f9d683767002a3e7f5641cb3cc3db74464c 100644
+index efe964caada458a34c58a0396cc7e3321c58e404..98288f83d1276a47ad3335153aee5c7ea9a5e451 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-@@ -522,4 +522,26 @@ public class PaperConfig {
+@@ -522,4 +522,29 @@ public class PaperConfig {
          itemValidationBookAuthorLength = getInt("settings.item-validation.book.author", itemValidationBookAuthorLength);
          itemValidationBookPageLength = getInt("settings.item-validation.book.page", itemValidationBookPageLength);
      }
@@ -105,14 +105,17 @@ index bc4081483a228aa275511d28231d615fe0f36d4e..be132f9d683767002a3e7f5641cb3cc3
 +        playerTargetChunkSendRate = getDouble("settings.chunk-loading.target-player-chunk-send-rate", 100.0);
 +        globalMaxChunkSendRate = getDouble("settings.chunk-loading.global-max-chunk-send-rate", -1.0);
 +        playerFrustumPrioritisation = getBoolean("settings.chunk-loading.enable-frustum-priority", false);
-+        globalMaxChunkLoadRate = getDouble("settings.chunk-loading.global-max-chunk-load-rate", 300.0);
++        globalMaxChunkLoadRate = getDouble("settings.chunk-loading.global-max-chunk-load-rate", -1.0);
++        if (version < 23 && globalMaxChunkLoadRate == 300.0) {
++            set("settings.chunk-loading.global-max-chunk-load-rate", -1.0);
++        }
 +        playerMaxConcurrentChunkLoads = getDouble("settings.chunk-loading.player-max-concurrent-loads", 4.0);
 +        globalMaxConcurrentChunkLoads = getDouble("settings.chunk-loading.global-max-concurrent-loads", 500.0);
 +    }
  }
 diff --git a/src/main/java/io/papermc/paper/chunk/PlayerChunkLoader.java b/src/main/java/io/papermc/paper/chunk/PlayerChunkLoader.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b3da5ec6701448a4b273c86aff9c64e3d75e5885
+index 0000000000000000000000000000000000000000..4eadc15f747528b59349f095171dd5a649a46ed9
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/chunk/PlayerChunkLoader.java
 @@ -0,0 +1,989 @@
@@ -701,7 +704,7 @@ index 0000000000000000000000000000000000000000..b3da5ec6701448a4b273c86aff9c64e3
 +                // priority > 0.0 implies rate limited chunks
 +
 +                final int currentChunkLoads = this.concurrentChunkLoads;
-+                if (currentChunkLoads >= maxLoads || (TICKET_ADDITION_COUNTER_SHORT.getRate() >= PaperConfig.globalMaxChunkLoadRate || TICKET_ADDITION_COUNTER_LONG.getRate() >= PaperConfig.globalMaxChunkLoadRate)) {
++                if (currentChunkLoads >= maxLoads || (PaperConfig.globalMaxChunkLoadRate > 0 && (TICKET_ADDITION_COUNTER_SHORT.getRate() >= PaperConfig.globalMaxChunkLoadRate || TICKET_ADDITION_COUNTER_LONG.getRate() >= PaperConfig.globalMaxChunkLoadRate))) {
 +                    // don't poll, we didn't load it
 +                    this.chunkLoadQueue.add(data);
 +                    break;
@@ -1202,7 +1205,7 @@ index 54822e418e319db551bfea3218d00faf0e043f43..de0c6316c9b75a2ecc7d6abf7bcca24e
              }
          }
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 58cf34b714ba98f35bdbe3895078ae4f87a0360e..e343c0ad21da97c4b830c626b3d59e03fa60e494 100644
+index 2f5ab00d26dcf027ec0e152a8bf17686a280ae50..09b214362f24cefe55e39f886b7fc3b9315b3982 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -187,22 +187,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
@@ -1376,7 +1379,7 @@ index 58cf34b714ba98f35bdbe3895078ae4f87a0360e..e343c0ad21da97c4b830c626b3d59e03
  
              this.viewDistance = j;
 -            this.setNoTickViewDistance(this.getRawNoTickViewDistance()); // Paper - no-tick view distance - propagate changes to no-tick, which does the actual chunk loading/sending
-+            this.playerChunkManager.setTickDistance(Mth.clamp(viewDistance, 2, 32)); // Paper - replace player loader system
++            this.playerChunkManager.setTickDistance(Mth.clamp(watchDistance, 2, 32)); // Paper - replace player loader system
          }
  
      }
@@ -1548,7 +1551,7 @@ index 108f2212f8bd00247bf73ff4f3ba42830abad459..0d8a47770435c27519af4ebd78835ec7
                  return true;
              } else {
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index f563e52c94735648670acd80169c0f7c4d6ad36a..6d2d2ba4a83d887f4d52188305a4a28c2ee2f014 100644
+index 52ffc39715def70a8ad3a99356be19bea5ef892b..4dfd185e47849c18c552e28370d93b48799d2eb9 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -261,7 +261,7 @@ public class ServerPlayer extends Player {
@@ -1561,7 +1564,7 @@ index f563e52c94735648670acd80169c0f7c4d6ad36a..6d2d2ba4a83d887f4d52188305a4a28c
  
      public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 4c8f6d2d72194d313e7383b5a499c8ca1a84e1da..ad9fb50791779a5fe7d22268b71bd10d9c9ff3f0 100644
+index 9b6770a41d272eea4b0a1d2076c936af3eaf5c2c..99aa8f2ba2f10578f37de621d1a5a8e222cd70b1 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -267,7 +267,7 @@ public abstract class PlayerList {
@@ -1573,7 +1576,7 @@ index 4c8f6d2d72194d313e7383b5a499c8ca1a84e1da..ad9fb50791779a5fe7d22268b71bd10d
          player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
          playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf(this.getServer().getServerModName())));
          playerconnection.send(new ClientboundChangeDifficultyPacket(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
-@@ -940,7 +940,7 @@ public abstract class PlayerList {
+@@ -941,7 +941,7 @@ public abstract class PlayerList {
          // CraftBukkit start
          LevelData worlddata = worldserver1.getLevelData();
          entityplayer1.connection.send(new ClientboundRespawnPacket(worldserver1.dimensionType(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), entityplayer1.gameMode.getGameModeForPlayer(), entityplayer1.gameMode.getPreviousGameModeForPlayer(), worldserver1.isDebug(), worldserver1.isFlat(), flag));
@@ -1582,7 +1585,7 @@ index 4c8f6d2d72194d313e7383b5a499c8ca1a84e1da..ad9fb50791779a5fe7d22268b71bd10d
          entityplayer1.setLevel(worldserver1);
          entityplayer1.unsetRemoved();
          entityplayer1.connection.teleport(new Location(worldserver1.getWorld(), entityplayer1.getX(), entityplayer1.getY(), entityplayer1.getZ(), entityplayer1.getYRot(), entityplayer1.getXRot()));
-@@ -1215,7 +1215,7 @@ public abstract class PlayerList {
+@@ -1216,7 +1216,7 @@ public abstract class PlayerList {
              // Really shouldn't happen...
              backingSet = world != null ? world.players.toArray() : players.toArray();
          } else {
@@ -1608,10 +1611,10 @@ index 7ccfe737fdf7f07b731ea0ff82e897564350705c..fe709bee0e657ff9bfc6deb6d4bd8ce4
                          double deltaZ = soundPos.getZ() - player.getZ();
                          double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 6ca0134c76adc335bb5125831e332fd709f09de7..83062654f7a3b05ba0ddb97645d615988bbe511b 100644
+index 6818de8db716a3d4bcf8a6ee4dc6acccf441cddb..01b8fc343d3a7dd68b6e54168de520b61e00da1f 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -597,7 +597,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -599,7 +599,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
                  this.sendBlockUpdated(blockposition, iblockdata1, iblockdata, i);
                  // Paper start - per player view distance - allow block updates for non-ticking chunks in player view distance
                  // if copied from above
@@ -1692,10 +1695,10 @@ index f0c43f9f636a5dd1f0dfbae604dfa1f4ff9ebd4e..9e75ee7f43722f05dd5df4ef00f7d3e2
              /*
               * If it's a new world, the first few chunks are generated inside
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 5af560b0466ec5ba80489e8f3d65aa2ee298786c..883b2070fcf99cf10d44aef6dece0f7f84bfeeed 100644
+index 072c2bbd8dd94bf3b687cee2eb7c09c79190231c..8c238a445b327e24d8152b36ebc2b1b57e73d0e1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2041,14 +2041,14 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2066,14 +2066,14 @@ public class CraftWorld extends CraftRegionAccessor implements World {
              throw new IllegalArgumentException("View distance " + viewDistance + " is out of range of [2, 32]");
          }
          net.minecraft.server.level.ChunkMap chunkMap = getHandle().getChunkSource().chunkMap;
@@ -1712,7 +1715,7 @@ index 5af560b0466ec5ba80489e8f3d65aa2ee298786c..883b2070fcf99cf10d44aef6dece0f7f
      }
  
      @Override
-@@ -2057,11 +2057,22 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2082,11 +2082,22 @@ public class CraftWorld extends CraftRegionAccessor implements World {
              throw new IllegalArgumentException("View distance " + viewDistance + " is out of range of [2, 32]");
          }
          net.minecraft.server.level.ChunkMap chunkMap = getHandle().getChunkSource().chunkMap;
@@ -1737,7 +1740,7 @@ index 5af560b0466ec5ba80489e8f3d65aa2ee298786c..883b2070fcf99cf10d44aef6dece0f7f
      // Spigot start
      private final org.bukkit.World.Spigot spigot = new org.bukkit.World.Spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index aa9775083aa804d72965a7af4988b14551293571..2f943a5f5135d4bb7c516e09277ddf15b8732fca 100644
+index 9da0bf8cf59fd37837ba4febf93c022fb4f08278..c64911651f3d736c83cc83996de04920b091cc57 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -517,15 +517,70 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
