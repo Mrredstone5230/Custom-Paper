@@ -16,6 +16,7 @@ Custom Features
 * Better trident spawn rate
 * Instant-minable basalt (No sound for the client though :\)
 * Faster Goat Attacks
+* More slime spawns
 
 How To (Server Admins)
 ------

@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Mrredstone5230 <sebastienduf@icloud.com>
+Date: Sun, 24 Octo 2021 22:11:11 +0100
+Subject: More slime spawns
+
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
+index bb6cc0e05..136bfd3d8 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
+@@ -338,7 +338,7 @@ public class Slime extends Mob implements Enemy {
+             ChunkPos chunkcoordintpair = new ChunkPos(pos);
+             boolean flag = world.getMinecraftWorld().paperConfig.allChunksAreSlimeChunks || WorldgenRandom.seedSlimeChunk(chunkcoordintpair.x, chunkcoordintpair.z, ((WorldGenLevel) world).getSeed(), world.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot // Paper
+ 
+-            if (random.nextInt(10) == 0 && flag && pos.getY() < 40) {
++            if (flag && pos.getY() < 40) {
+                 return checkMobSpawnRules(type, world, spawnReason, pos, random);
+             }
+         }
