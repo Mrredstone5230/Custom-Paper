@@ -5,7 +5,7 @@ Subject: [PATCH] Line Of Sight Changes
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 6539cd1a63f2d987bda2b91555b94df896089d1f..429c229d7c88060c76b143ff4aa1bea88b2be786 100644
+index b84e20cd955fd75582a2c52f0c571d54ead555b2..a60d289f3cf3826ac5368f3de77584fb63bf5e64 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3430,7 +3430,8 @@ public abstract class LivingEntity extends Entity {
@@ -19,10 +19,10 @@ index 6539cd1a63f2d987bda2b91555b94df896089d1f..429c229d7c88060c76b143ff4aa1bea8
      }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index bfa5ff07faca4728c42062b81be298b91d07ef04..e2f05ab12066cea354eed4f8beb20cb3e9899899 100644
+index 483ca752016c0d5e669b462396e50e83b66d3ef1..6a4c379a2905455b14c3cbd4a46a0f95c5f78aac 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -186,6 +186,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -188,6 +188,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      public io.papermc.paper.world.MoonPhase getMoonPhase() {
          return io.papermc.paper.world.MoonPhase.getPhase(getFullTime() / 24000L);
      }

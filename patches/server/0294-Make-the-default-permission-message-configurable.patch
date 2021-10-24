@@ -42,10 +42,10 @@ index 4b4fbd8747740111cc2e25f0c4d29a29926a3a1b..26ac165135ef53cec9e065ae1c15220a
          Object val = config.get("settings.save-player-data");
          if (val instanceof Boolean) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d64bcc0aafb918e82e881f6503ce8311e78a3f6f..0d2f6680af8a678b4b07a6a3ba809128c69563e7 100644
+index 921128242ba133d73d2ac592a5f4b7515ef2e46c..67eb0b97d6ca74e815140eea7f5262b55f6f8e6e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2483,6 +2483,11 @@ public final class CraftServer implements Server {
+@@ -2519,6 +2519,11 @@ public final class CraftServer implements Server {
          return com.destroystokyo.paper.PaperConfig.suggestPlayersWhenNullTabCompletions;
      }
  

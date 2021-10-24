@@ -48,10 +48,10 @@ index da9f4b3337b49597c17b50964656457cd629a0b7..22c2c121bbcc7b0e15d73d20c9cc83d5
          } else if (this.player.getChatVisibility() == ChatVisiblity.SYSTEM) {
              // Do nothing, this is coming from a plugin
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 66420a9b1e917856b94343b90859323a1d84341f..022326790d61d163a47b2fe888627f0625405755 100644
+index 47b212ca59b1c30b7224cac6a96f527fdfe659f8..52a20a67ac25018c04d037c54b014d15ee2c1e95 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -773,6 +773,28 @@ public final class CraftServer implements Server {
+@@ -787,6 +787,28 @@ public final class CraftServer implements Server {
          Validate.notNull(commandLine, "CommandLine cannot be null");
          org.spigotmc.AsyncCatcher.catchOp("command dispatch"); // Spigot
  

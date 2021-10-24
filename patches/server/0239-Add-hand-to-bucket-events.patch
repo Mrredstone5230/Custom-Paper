@@ -36,7 +36,7 @@ index c4aa14e81151ada49e61f4dd25267f7eb10450a6..dd2710f2a093fcca9f80edf41866459d
      public float getSharedSpawnAngle() {
          return this.levelData.getSpawnAngle();
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Cow.java b/src/main/java/net/minecraft/world/entity/animal/Cow.java
-index fe90b59a71b85afd3f4b5f7c4d4ba66ed74a05df..c9dcbc2dcb2736d0f448496c67121db29b7d4deb 100644
+index 0cf990f220fad6e945bda590263b78ea2e5a3b03..a43349c47292154dfc56c72c58ba9f29f6765d83 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Cow.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Cow.java
 @@ -87,7 +87,7 @@ public class Cow extends Animal {
@@ -49,7 +49,7 @@ index fe90b59a71b85afd3f4b5f7c4d4ba66ed74a05df..c9dcbc2dcb2736d0f448496c67121db2
              if (event.isCancelled()) {
                  return InteractionResult.PASS;
 diff --git a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
-index 454e07a47d35b8dc8e5f1fb38da74669b4f7cdc7..15787afad42f9299638a1c9e57d26678805f18ee 100644
+index 68b116697d6cf3dbb1fa25d6e9ca9bbb10f346a3..32d0387b6c66462ca965add78a562dec3c4b95a9 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -180,7 +180,7 @@ public class Goat extends Animal {
@@ -117,10 +117,10 @@ index 5870023250ed2dba16b2fa5c6a8be6f36cebc640..650b59b69eb12112bc71e5ff164767e3
                  int i = blockposition.getX();
                  int j = blockposition.getY();
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 17f596e6059334114ce3ee17fbde1ce3d14c5ca1..96c685ffbf6058b69f0c573a1255a9e8596365bf 100644
+index b5aa61cecf15e38105cf4bef92b6859aaa450dbd..2647b88ffffa393e744d9e003032468acc92668a 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -292,6 +292,17 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -294,6 +294,17 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          return true;
      }
      // Paper end
@@ -139,10 +139,10 @@ index 17f596e6059334114ce3ee17fbde1ce3d14c5ca1..96c685ffbf6058b69f0c573a1255a9e8
      public boolean isClientSide() {
          return this.isClientSide;
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index e6f2dff4e581535047136b398aca023cd46cf4b4..fb17ab47d45b1cb2aa48ba28c452a683ce8a1568 100644
+index 4faf98079a6a6af662e11050a0088578ba65a5eb..e094b1b00d5fb73da73abcadb02ffd98b91fb869 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -226,7 +226,7 @@ public class CraftEventFactory {
+@@ -227,7 +227,7 @@ public class CraftEventFactory {
      public static Entity entityDamage; // For use in EntityDamageByEntityEvent
  
      // helper methods
@@ -151,7 +151,7 @@ index e6f2dff4e581535047136b398aca023cd46cf4b4..fb17ab47d45b1cb2aa48ba28c452a683
          int spawnSize = Bukkit.getServer().getSpawnRadius();
  
          if (world.dimension() != Level.OVERWORLD) return true;
-@@ -420,6 +420,20 @@ public class CraftEventFactory {
+@@ -421,6 +421,20 @@ public class CraftEventFactory {
      }
  
      private static PlayerEvent getPlayerBucketEvent(boolean isFilling, ServerLevel world, net.minecraft.world.entity.player.Player who, BlockPos changed, BlockPos clicked, Direction clickedFace, ItemStack itemstack, net.minecraft.world.item.Item item) {
@@ -172,7 +172,7 @@ index e6f2dff4e581535047136b398aca023cd46cf4b4..fb17ab47d45b1cb2aa48ba28c452a683
          Player player = (Player) who.getBukkitEntity();
          CraftItemStack itemInHand = CraftItemStack.asNewCraftStack(item);
          Material bucket = CraftMagicNumbers.getMaterial(itemstack.getItem());
-@@ -432,10 +446,10 @@ public class CraftEventFactory {
+@@ -433,10 +447,10 @@ public class CraftEventFactory {
  
          PlayerEvent event;
          if (isFilling) {

@@ -23,7 +23,7 @@ index 2a7d31f533240e0b683c00d65f5632d7a8ff236d..3816623fa85db14a89bd165221695de1
          config.addDefault("world-settings.default." + path, def);
          return config.getBoolean("world-settings." + worldName + "." + path, config.getBoolean("world-settings.default." + path));
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index bdfa5c65e41edb7cdcb5a0fff54d9384a9598028..e029064acc58332914eef0524ad991a45d368c93 100644
+index 3ca73d8c4709d6a95bc8f6b81b977a069f9cba17..d284ed9d1cc6ea3ee2e7878faf43184507f91186 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -787,35 +787,36 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -221,10 +221,10 @@ index 4185e6bcf9b2bb65b2a0fa5fcbeb5684615169a7..dbc29442f2b2ad3ea451910f4944e901
          this.maxCount = i * i;
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 642c0d98f3fc8a4a4caf75f4e67dfaadbde7dd70..b53c4296afca4755b39ec2e08d258a84984fb394 100644
+index 3d13316726582283147714264f95595c518ff67f..85bc46d7a2528254f888c027c2a4e2240f8e11d1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -1334,15 +1334,21 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -1337,15 +1337,21 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public void setKeepSpawnInMemory(boolean keepLoaded) {
@@ -243,7 +243,7 @@ index 642c0d98f3fc8a4a4caf75f4e67dfaadbde7dd70..b53c4296afca4755b39ec2e08d258a84
          } else {
 -            // TODO: doesn't work well if spawn changed....
 -            this.world.getChunkSource().removeRegionTicket(TicketType.START, new ChunkPos(chunkcoordinates), 11, Unit.INSTANCE);
-+            // TODO: doesn't work well if spawn changed.... // paper - resolved
++            // TODO: doesn't work well if spawn changed.... // Paper - resolved
 +            this.world.removeTicketsForSpawn(this.world.paperConfig.keepLoadedRange, chunkcoordinates);
          }
 +        // Paper end

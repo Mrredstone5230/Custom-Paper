@@ -66,11 +66,6 @@ public net.minecraft.util.thread.BlockableEventLoop runAllTasks()V
 # Improve death events
 public net.minecraft.world.entity.LivingEntity getDeathSound()Lnet/minecraft/sounds/SoundEvent;
 public net.minecraft.world.entity.LivingEntity getSoundVolume()F
-public net.minecraft.world.entity.ambient.Bat getSoundVolume()F
-public net.minecraft.world.entity.monster.Ghast getSoundVolume()F
-public net.minecraft.world.entity.monster.Phantom getSoundVolume()F
-public net.minecraft.world.entity.animal.Squid getSoundVolume()F
-public net.minecraft.world.entity.animal.Wolf getSoundVolume()F
 
 # Add sun related api
 public net.minecraft.world.entity.Mob isSunBurnTick()Z
@@ -84,7 +79,7 @@ public net.minecraft.world.entity.animal.Turtle isTravelling()Z
 public net.minecraft.world.entity.animal.Turtle setTravelling(Z)V
 
 # Call player spectator target event
-public net.minecraft.server.network.ServerGamePacketListenerImpl a(Ljava/util/List;Ljava/util/function/UnaryOperator;Lnet/minecraft/world/item/ItemStack;ILnet/minecraft/world/item/ItemStack;)V # todo fix this mapping
+public net.minecraft.server.network.ServerGamePacketListenerImpl updateBookPages(Ljava/util/List;Ljava/util/function/UnaryOperator;Lnet/minecraft/world/item/ItemStack;ILnet/minecraft/world/item/ItemStack;)V
 
 # Improve Server THread Pool
 public net.minecraft.Util onThreadException(Ljava/lang/Thread;Ljava/lang/Throwable;)V
@@ -215,21 +210,14 @@ public net.minecraft.world.entity.monster.Witch usingTime
 # PlayerDeathEvent#getItemsToKeep
 public net.minecraft.world.entity.player.Inventory compartments
 
-# Missing Entity API
+# Missing Entity Behavior API
 public net.minecraft.world.entity.animal.Fox isDefending()Z
 public net.minecraft.world.entity.animal.Fox setDefending(Z)V
-
 public net.minecraft.world.entity.animal.Fox isFaceplanted()Z
 public net.minecraft.world.entity.animal.Fox setFaceplanted(Z)V
 
 # Cook speed multipler API
 public net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity recipeType
-
-# Improve CraftChunk#getEntities
-public net.minecraft.world.level.entity.PersistentEntitySectionManager sectionStorage
-
-# Optimize light engine
-public-f net.minecraft.world.level.chunk.DataLayer
 
 # Add methods to get translation keys
 public org.bukkit.craftbukkit.inventory.CraftMetaFirework
@@ -237,3 +225,24 @@ public org.bukkit.craftbukkit.inventory.CraftMetaFirework getNBT(Lorg/bukkit/Fir
 
 # Vanilla command permission fixes
 public-f com.mojang.brigadier.tree.CommandNode requirement
+
+# Block Enderpearl Travel Exploit
+public net.minecraft.world.entity.projectile.Projectile cachedOwner
+public net.minecraft.world.entity.projectile.Projectile ownerUUID
+
+# Add missing display slots
+public org.bukkit.craftbukkit.scoreboard.CraftScoreboardTranslations
+public org.bukkit.craftbukkit.scoreboard.CraftScoreboardTranslations toBukkitSlot(I)Lorg/bukkit/scoreboard/DisplaySlot;
+public org.bukkit.craftbukkit.scoreboard.CraftScoreboardTranslations fromBukkitSlot(Lorg/bukkit/scoreboard/DisplaySlot;)I
+
+# Add methods to find targets for lightning strikes
+public net.minecraft.server.level.ServerLevel findLightningRod(Lnet/minecraft/core/BlockPos;)Ljava/util/Optional;
+
+# Improve CraftBlockStates
+public net.minecraft.world.level.block.entity.BlockEntityType validBlocks
+
+# Default entity attributes
+public net.minecraft.world.entity.ai.attributes.AttributeSupplier instances
+
+# Add ItemFactory#getSpawnEgg API
+public net.minecraft.world.item.SpawnEggItem BY_ID

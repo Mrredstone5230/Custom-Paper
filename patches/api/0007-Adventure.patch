@@ -7,14 +7,14 @@ Co-authored-by: zml <zml@stellardrift.ca>
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index ccf5b30fa48e641fc8d04f185f9ffca55d4e2154..0ed6d9e6619db7559dc5b65a8da6e54e6e15d31c 100644
+index 3a395a44ff50a77895341bbbfb8c81deede41b8b..0a49a70a8f70e9b0af1eb5cff10884b98f86da7d 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -10,6 +10,19 @@ java {
      withJavadocJar()
  }
  
-+val adventureVersion = "4.8.1"
++val adventureVersion = "4.9.2"
 +val apiAndDocs by configurations.creating {
 +    attributes {
 +        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
@@ -42,7 +42,7 @@ index ccf5b30fa48e641fc8d04f185f9ffca55d4e2154..0ed6d9e6619db7559dc5b65a8da6e54e
  
      compileOnly("org.apache.maven:maven-resolver-provider:3.8.1")
      compileOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.0")
-@@ -61,10 +79,17 @@ tasks.jar {
+@@ -67,10 +85,17 @@ tasks.jar {
  }
  
  tasks.withType<Javadoc>().configureEach {
@@ -464,10 +464,10 @@ index 0000000000000000000000000000000000000000..77db592d05b754f879f8d1790642e9d9
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a1a39cee3 100644
+index f813a727e291acd3a3625747fc5b5e604a5a56d4..e8747e52ae2ebac79546a04c19a7945d3d4dabe4 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -302,7 +302,9 @@ public final class Bukkit {
+@@ -303,7 +303,9 @@ public final class Bukkit {
       *
       * @param message the message
       * @return the number of players
@@ -477,7 +477,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      public static int broadcastMessage(@NotNull String message) {
          return server.broadcastMessage(message);
      }
-@@ -915,6 +917,19 @@ public final class Bukkit {
+@@ -937,6 +939,19 @@ public final class Bukkit {
          server.shutdown();
      }
  
@@ -497,7 +497,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      /**
       * Broadcasts the specified message to every user with the given
       * permission name.
-@@ -924,6 +939,21 @@ public final class Bukkit {
+@@ -946,6 +961,21 @@ public final class Bukkit {
       *     permissibles} must have to receive the broadcast
       * @return number of message recipients
       */
@@ -519,7 +519,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      public static int broadcast(@NotNull String message, @NotNull String permission) {
          return server.broadcast(message, permission);
      }
-@@ -1123,6 +1153,7 @@ public final class Bukkit {
+@@ -1145,6 +1175,7 @@ public final class Bukkit {
          return server.createInventory(owner, type);
      }
  
@@ -527,7 +527,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      /**
       * Creates an empty inventory with the specified type and title. If the type
       * is {@link InventoryType#CHEST}, the new inventory has a size of 27;
-@@ -1148,6 +1179,38 @@ public final class Bukkit {
+@@ -1170,6 +1201,38 @@ public final class Bukkit {
       * @see InventoryType#isCreatable()
       */
      @NotNull
@@ -566,7 +566,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      public static Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title) {
          return server.createInventory(owner, type, title);
      }
-@@ -1166,6 +1229,7 @@ public final class Bukkit {
+@@ -1188,6 +1251,7 @@ public final class Bukkit {
          return server.createInventory(owner, size);
      }
  
@@ -574,7 +574,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      /**
       * Creates an empty inventory of type {@link InventoryType#CHEST} with the
       * specified size and title.
-@@ -1178,10 +1242,30 @@ public final class Bukkit {
+@@ -1200,10 +1264,30 @@ public final class Bukkit {
       * @throws IllegalArgumentException if the size is not a multiple of 9
       */
      @NotNull
@@ -605,7 +605,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      /**
       * Creates an empty merchant.
       *
-@@ -1189,7 +1273,20 @@ public final class Bukkit {
+@@ -1211,7 +1295,20 @@ public final class Bukkit {
       * when the merchant inventory is viewed
       * @return a new merchant
       */
@@ -626,7 +626,7 @@ index 1d54b48250cd8313719c301a2770358a61d9d152..241d6179347a3eedbab537e6e596f18a
      public static Merchant createMerchant(@Nullable String title) {
          return server.createMerchant(title);
      }
-@@ -1260,22 +1357,47 @@ public final class Bukkit {
+@@ -1291,22 +1388,47 @@ public final class Bukkit {
          return server.isPrimaryThread();
      }
  
@@ -748,10 +748,10 @@ index 803fa0019869127ee8c7e4fb1777a59c43e66f8a..c65f0d6569c130b4920a9e71ad24af64
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf03db123c 100644
+index 2081ebf5d401130e169ddd588a809275f9369a92..e71fe881872e7be2a39f7a6830be9dc83c78ec8c 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -55,13 +55,13 @@ import org.jetbrains.annotations.Nullable;
+@@ -56,13 +56,13 @@ import org.jetbrains.annotations.Nullable;
  /**
   * Represents a server implementation.
   */
@@ -767,7 +767,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
       */
      public static final String BROADCAST_CHANNEL_ADMINISTRATIVE = "bukkit.broadcast.admin";
  
-@@ -69,7 +69,7 @@ public interface Server extends PluginMessageRecipient {
+@@ -70,7 +70,7 @@ public interface Server extends PluginMessageRecipient {
       * Used for all announcement messages, such as informing users that a
       * player has joined.
       * <p>
@@ -776,7 +776,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
       */
      public static final String BROADCAST_CHANNEL_USERS = "bukkit.broadcast.user";
  
-@@ -249,7 +249,9 @@ public interface Server extends PluginMessageRecipient {
+@@ -250,7 +250,9 @@ public interface Server extends PluginMessageRecipient {
       *
       * @param message the message
       * @return the number of players
@@ -786,7 +786,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      public int broadcastMessage(@NotNull String message);
  
      /**
-@@ -774,8 +776,33 @@ public interface Server extends PluginMessageRecipient {
+@@ -795,8 +797,33 @@ public interface Server extends PluginMessageRecipient {
       * @param permission the required permission {@link Permissible
       *     permissibles} must have to receive the broadcast
       * @return number of message recipients
@@ -820,7 +820,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
  
      /**
       * Gets the player by the given name, regardless if they are offline or
-@@ -940,6 +967,7 @@ public interface Server extends PluginMessageRecipient {
+@@ -961,6 +988,7 @@ public interface Server extends PluginMessageRecipient {
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type);
  
@@ -828,7 +828,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      /**
       * Creates an empty inventory with the specified type and title. If the type
       * is {@link InventoryType#CHEST}, the new inventory has a size of 27;
-@@ -965,6 +993,36 @@ public interface Server extends PluginMessageRecipient {
+@@ -986,6 +1014,36 @@ public interface Server extends PluginMessageRecipient {
       * @see InventoryType#isCreatable()
       */
      @NotNull
@@ -865,7 +865,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      Inventory createInventory(@Nullable InventoryHolder owner, @NotNull InventoryType type, @NotNull String title);
  
      /**
-@@ -979,6 +1037,22 @@ public interface Server extends PluginMessageRecipient {
+@@ -1000,6 +1058,22 @@ public interface Server extends PluginMessageRecipient {
      @NotNull
      Inventory createInventory(@Nullable InventoryHolder owner, int size) throws IllegalArgumentException;
  
@@ -888,7 +888,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      /**
       * Creates an empty inventory of type {@link InventoryType#CHEST} with the
       * specified size and title.
-@@ -989,10 +1063,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1010,10 +1084,13 @@ public interface Server extends PluginMessageRecipient {
       *     viewed
       * @return a new inventory
       * @throws IllegalArgumentException if the size is not a multiple of 9
@@ -902,7 +902,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      /**
       * Creates an empty merchant.
       *
-@@ -1000,7 +1077,18 @@ public interface Server extends PluginMessageRecipient {
+@@ -1021,7 +1098,18 @@ public interface Server extends PluginMessageRecipient {
       * when the merchant inventory is viewed
       * @return a new merchant
       */
@@ -921,7 +921,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      Merchant createMerchant(@Nullable String title);
  
      /**
-@@ -1057,20 +1145,41 @@ public interface Server extends PluginMessageRecipient {
+@@ -1085,20 +1173,41 @@ public interface Server extends PluginMessageRecipient {
       */
      boolean isPrimaryThread();
  
@@ -963,7 +963,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
      String getShutdownMessage();
  
      /**
-@@ -1439,7 +1548,9 @@ public interface Server extends PluginMessageRecipient {
+@@ -1475,7 +1584,9 @@ public interface Server extends PluginMessageRecipient {
           * Sends the component to the player
           *
           * @param component the components to send
@@ -973,7 +973,7 @@ index f549bac30ea5e42d99a8920d305fe33748dc84a9..6f87dec0e0b1625e1628e8a1a8357ddf
          public void broadcast(@NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1448,7 +1559,9 @@ public interface Server extends PluginMessageRecipient {
+@@ -1484,7 +1595,9 @@ public interface Server extends PluginMessageRecipient {
           * Sends an array of components as a single message to the player
           *
           * @param components the components to send
@@ -1076,7 +1076,7 @@ index efb97712cc9dc7c1e12a59f5b94e4f2ad7c6b7d8..3024468af4c073324e536c1cb26beffb
                  return warning == null || warning.value();
              }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index dd0fef9155077ce6df7bdadc9e4152008f700a3b..92e8b0b1ccebdc2646337114793ea9f3e7759d25 100644
+index 794bbd3fa66fdfbcf4bb7ce0d64ede07626d4918..3f7658c5347aad369fde6750d969f5fa63e922de 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
@@ -1103,6 +1103,49 @@ index dd0fef9155077ce6df7bdadc9e4152008f700a3b..92e8b0b1ccebdc2646337114793ea9f3
      /**
       * Returns a list of entities within a bounding box centered around a
       * Location.
+diff --git a/src/main/java/org/bukkit/block/CommandBlock.java b/src/main/java/org/bukkit/block/CommandBlock.java
+index 372c0bd5a4d7800a11c24c95e39fe376a96232bf..73dce588d1f7a5048300073bf8c2b14d6da1e857 100644
+--- a/src/main/java/org/bukkit/block/CommandBlock.java
++++ b/src/main/java/org/bukkit/block/CommandBlock.java
+@@ -33,7 +33,9 @@ public interface CommandBlock extends TileState {
+      * by default is "@".
+      *
+      * @return Name of this CommandBlock.
++     * @deprecated in favour of {@link #name()}
+      */
++    @Deprecated // Paper
+     @NotNull
+     public String getName();
+ 
+@@ -43,6 +45,28 @@ public interface CommandBlock extends TileState {
+      * same as setting it to "@".
+      *
+      * @param name New name for this CommandBlock.
++     * @deprecated in favour of {@link #name(net.kyori.adventure.text.Component)}
+      */
++    @Deprecated // Paper
+     public void setName(@Nullable String name);
++
++    // Paper start
++    /**
++     * Gets the name of this CommandBlock.  The name is used with commands
++     * that this CommandBlock executes.  This name will never be null, and
++     * by default is a {@link net.kyori.adventure.text.TextComponent} containing {@code @}.
++     *
++     * @return Name of this CommandBlock.
++     */
++    public @NotNull net.kyori.adventure.text.Component name();
++
++    /**
++     * Sets the name of this CommandBlock.  The name is used with commands
++     * that this CommandBlock executes.  Setting the name to null is the
++     * same as setting it to a {@link net.kyori.adventure.text.TextComponent} containing {@code @}.
++     *
++     * @param name New name for this CommandBlock.
++     */
++    public void name(@Nullable net.kyori.adventure.text.Component name);
++    // Paper end
+ }
 diff --git a/src/main/java/org/bukkit/block/Sign.java b/src/main/java/org/bukkit/block/Sign.java
 index ab6b0ec328e94bf65a0dafd0403e5ee3b870296c..c8d37184d8e882a4084a1bfef85faa330588600b 100644
 --- a/src/main/java/org/bukkit/block/Sign.java
@@ -1177,8 +1220,90 @@ index ab6b0ec328e94bf65a0dafd0403e5ee3b870296c..c8d37184d8e882a4084a1bfef85faa33
      public void setLine(int index, @NotNull String line) throws IndexOutOfBoundsException;
  
      /**
+diff --git a/src/main/java/org/bukkit/command/Command.java b/src/main/java/org/bukkit/command/Command.java
+index 03bdc1622791e1206406c87065978688d602e39e..c4dcafac892169a7bfcc065701fffb43c6cfdf44 100644
+--- a/src/main/java/org/bukkit/command/Command.java
++++ b/src/main/java/org/bukkit/command/Command.java
+@@ -32,7 +32,7 @@ public abstract class Command {
+     protected String description;
+     protected String usageMessage;
+     private String permission;
+-    private String permissionMessage;
++    private net.kyori.adventure.text.Component permissionMessage; // Paper
+     public co.aikar.timings.Timing timings; // Paper
+     @NotNull public String getTimingName() {return getName();} // Paper
+ 
+@@ -186,10 +186,10 @@ public abstract class Command {
+ 
+         if (permissionMessage == null) {
+             target.sendMessage(ChatColor.RED + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is a mistake.");
+-        } else if (permissionMessage.length() != 0) {
+-            for (String line : permissionMessage.replace("<permission>", permission).split("\n")) {
+-                target.sendMessage(line);
+-            }
++            // Paper start - use components for permissionMessage
++        } else if (!permissionMessage.equals(net.kyori.adventure.text.Component.empty())) {
++            target.sendMessage(permissionMessage.replaceText(net.kyori.adventure.text.TextReplacementConfig.builder().matchLiteral("<permission>").replacement(permission).build()));
++            // Paper end
+         }
+ 
+         return false;
+@@ -316,10 +316,12 @@ public abstract class Command {
+      * command
+      *
+      * @return Permission check failed message
++     * @deprecated use {@link #permissionMessage()}
+      */
+     @Nullable
++    @Deprecated // Paper
+     public String getPermissionMessage() {
+-        return permissionMessage;
++        return io.papermc.paper.text.PaperComponents.legacySectionSerializer().serializeOrNull(permissionMessage); // Paper
+     }
+ 
+     /**
+@@ -380,10 +382,12 @@ public abstract class Command {
+      * @param permissionMessage new permission message, null to indicate
+      *     default message, or an empty string to indicate no message
+      * @return this command object, for chaining
++     * @deprecated use {@link #permissionMessage(net.kyori.adventure.text.Component)}
+      */
+     @NotNull
++    @Deprecated // Paper
+     public Command setPermissionMessage(@Nullable String permissionMessage) {
+-        this.permissionMessage = permissionMessage;
++        this.permissionMessage = io.papermc.paper.text.PaperComponents.legacySectionSerializer().deserializeOrNull(permissionMessage); // Paper
+         return this;
+     }
+ 
+@@ -398,6 +402,25 @@ public abstract class Command {
+         this.usageMessage = (usage == null) ? "" : usage;
+         return this;
+     }
++    // Paper start
++    /**
++     * Gets the permission message.
++     *
++     * @return the permission message
++     */
++    public @Nullable net.kyori.adventure.text.Component permissionMessage() {
++        return this.permissionMessage;
++    }
++
++    /**
++     * Sets the permission message.
++     *
++     * @param permissionMessage the permission message
++     */
++    public void permissionMessage(@Nullable net.kyori.adventure.text.Component permissionMessage) {
++        this.permissionMessage = permissionMessage;
++    }
++    // Paper end
+ 
+     public static void broadcastCommandMessage(@NotNull CommandSender source, @NotNull String message) {
+         broadcastCommandMessage(source, message, true);
 diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java/org/bukkit/command/CommandSender.java
-index 284be63a125624a8ae43d2c164aede810ce6bfe5..511746ef9576e4c219e9ab35da3ab0727cb7ee7c 100644
+index 284be63a125624a8ae43d2c164aede810ce6bfe5..7c9a0c85c0e23d6a569c3583e87b005938923d95 100644
 --- a/src/main/java/org/bukkit/command/CommandSender.java
 +++ b/src/main/java/org/bukkit/command/CommandSender.java
 @@ -6,12 +6,13 @@ import org.bukkit.permissions.Permissible;
@@ -1260,18 +1385,55 @@ index 284be63a125624a8ae43d2c164aede810ce6bfe5..511746ef9576e4c219e9ab35da3ab072
          public void sendMessage(@Nullable UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -99,4 +111,11 @@ public interface CommandSender extends Permissible {
+@@ -99,4 +111,18 @@ public interface CommandSender extends Permissible {
      @NotNull
      Spigot spigot();
      // Spigot end
 +
 +    // Paper start
++    /**
++     * Gets the name of this command sender
++     *
++     * @return Name of the sender
++     */
++    public @NotNull Component name();
++
 +    @Override
 +    default void sendMessage(final @NotNull net.kyori.adventure.identity.Identity identity, final @NotNull net.kyori.adventure.text.Component message, final @NotNull net.kyori.adventure.audience.MessageType type) {
 +        this.sendMessage(org.bukkit.Bukkit.getUnsafe().legacyComponentSerializer().serialize(message));
 +    }
 +    // Paper end
  }
+diff --git a/src/main/java/org/bukkit/command/MessageCommandSender.java b/src/main/java/org/bukkit/command/MessageCommandSender.java
+index a7ef1f51c2b96617a32e6e7b1723e8770ba8a6a8..68daa56546d00089d7d6c13ee897d828c377bbc3 100644
+--- a/src/main/java/org/bukkit/command/MessageCommandSender.java
++++ b/src/main/java/org/bukkit/command/MessageCommandSender.java
+@@ -49,6 +49,12 @@ public interface MessageCommandSender extends CommandSender {
+     default String getName() {
+         throw new NotImplementedException();
+     }
++    // Paper start
++    @Override
++    default net.kyori.adventure.text.@org.jetbrains.annotations.NotNull Component name() {
++        throw new NotImplementedException();
++    }
++    // Paper end
+ 
+     @Override
+     default boolean isOp() {
+diff --git a/src/main/java/org/bukkit/command/PluginCommandYamlParser.java b/src/main/java/org/bukkit/command/PluginCommandYamlParser.java
+index a542c4bb3c973bbe4b976642feccde6a4d90cb7b..614cba22c0997dbb45576f800675db4053a9831c 100644
+--- a/src/main/java/org/bukkit/command/PluginCommandYamlParser.java
++++ b/src/main/java/org/bukkit/command/PluginCommandYamlParser.java
+@@ -67,7 +67,7 @@ public class PluginCommandYamlParser {
+             }
+ 
+             if (permissionMessage != null) {
+-                newCmd.setPermissionMessage(permissionMessage.toString());
++                newCmd.permissionMessage(io.papermc.paper.text.PaperComponents.legacySectionSerializer().deserialize(permissionMessage.toString())); // Paper
+             }
+ 
+             pluginCmds.add(newCmd);
 diff --git a/src/main/java/org/bukkit/command/ProxiedCommandSender.java b/src/main/java/org/bukkit/command/ProxiedCommandSender.java
 index fcc34b640265f4dccb46b9f09466ab8e1d96043e..74599b4ee0518481c0e3a5f6ab2f5302837f1ae3 100644
 --- a/src/main/java/org/bukkit/command/ProxiedCommandSender.java
@@ -1343,7 +1505,7 @@ index 9566e4306ada5e82dede0f002aa06da12c44996b..4d5f0837bd0e02a30c943d8969fb6b13
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 25a6f9313a1953def7470e411b53016f2ca14bef..d7a4cfed4f46b34f83fb2c07bdab5a71215d26bb 100644
+index 25a6f9313a1953def7470e411b53016f2ca14bef..03d8ac1b41659540d7eb3d7e218cdfaa4acb683b 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
@@ -1355,12 +1517,20 @@ index 25a6f9313a1953def7470e411b53016f2ca14bef..d7a4cfed4f46b34f83fb2c07bdab5a71
  
      /**
       * Gets the entity's current position
-@@ -648,4 +648,12 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -648,4 +648,20 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      @Override
      Spigot spigot();
      // Spigot end
 +
 +    // Paper start
++    /**
++     * Gets the entity's display name formatted with their team prefix/suffix and
++     * the entity's default hover/click events.
++     *
++     * @return the team display name
++     */
++    @NotNull net.kyori.adventure.text.Component teamDisplayName();
++
 +    @NotNull
 +    @Override
 +    default net.kyori.adventure.text.event.HoverEvent<net.kyori.adventure.text.event.HoverEvent.ShowEntity> asHoverEvent(final @NotNull java.util.function.UnaryOperator<net.kyori.adventure.text.event.HoverEvent.ShowEntity> op) {
@@ -1369,7 +1539,7 @@ index 25a6f9313a1953def7470e411b53016f2ca14bef..d7a4cfed4f46b34f83fb2c07bdab5a71
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955dfa653edb3 100644
+index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999cec151168 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -33,7 +33,28 @@ import org.jetbrains.annotations.Nullable;
@@ -1665,7 +1835,26 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor, boolean hasGlowingText) throws IllegalArgumentException;
  
      /**
-@@ -1266,6 +1437,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1020,7 +1191,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      *
+      * @param title Title text
+      * @param subtitle Subtitle text
+-     * @deprecated API behavior subject to change
++     * @deprecated Use {@link #showTitle(net.kyori.adventure.title.Title)} or {@link #sendTitlePart(net.kyori.adventure.title.TitlePart, Object)}
+      */
+     @Deprecated
+     public void sendTitle(@Nullable String title, @Nullable String subtitle);
+@@ -1039,7 +1210,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      * @param fadeIn time in ticks for titles to fade in. Defaults to 10.
+      * @param stay time in ticks for titles to stay. Defaults to 70.
+      * @param fadeOut time in ticks for titles to fade out. Defaults to 20.
++     * @deprecated Use {@link #showTitle(net.kyori.adventure.title.Title)} or {@link #sendTitlePart(net.kyori.adventure.title.TitlePart, Object)}
+      */
++    @Deprecated // Paper - Adventure
+     public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
+ 
+     /**
+@@ -1266,6 +1439,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public int getClientViewDistance();
  
@@ -1680,7 +1869,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
      /**
       * Gets the player's estimated ping in milliseconds.
       *
-@@ -1291,8 +1470,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1291,8 +1472,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * they wish.
       *
       * @return the player's locale
@@ -1691,7 +1880,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
      public String getLocale();
  
      /**
-@@ -1310,6 +1491,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1310,6 +1493,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void openBook(@NotNull ItemStack book);
  
@@ -1706,7 +1895,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
      // Spigot start
      public class Spigot extends Entity.Spigot {
  
-@@ -1364,11 +1553,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1364,11 +1555,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
              throw new UnsupportedOperationException("Not supported yet.");
          }
  
@@ -1720,7 +1909,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
          @Override
          public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
-@@ -1379,7 +1570,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1379,7 +1572,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param component the components to send
@@ -1730,7 +1919,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1389,7 +1582,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1389,7 +1584,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param components the components to send
@@ -1740,7 +1929,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1400,7 +1595,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1400,7 +1597,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param component the components to send
@@ -1750,7 +1939,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..d68b2c6044db7740ef4d737e1b2955df
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @Nullable UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1411,7 +1608,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1411,7 +1610,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param components the components to send
@@ -3538,6 +3727,45 @@ index 4dba721aefe4fc6699b3b4bfa7ecb0b19c2a2a1a..01dec2c877df58c9dc22445e8b1f9ce2
 +    @Deprecated
 +    public @NotNull MapCursor addCursor(int x, int y, byte direction, byte type, boolean visible, @Nullable net.kyori.adventure.text.Component caption) {
 +        return addCursor(new MapCursor((byte) x, (byte) y, direction, type, visible, caption));
++    }
++    // Paper end
+ }
+diff --git a/src/main/java/org/bukkit/permissions/Permissible.java b/src/main/java/org/bukkit/permissions/Permissible.java
+index 228421154913116069c20323afb519bdde2134df..26791db3c267670d5782f1d2b67ff7d5b55b9dac 100644
+--- a/src/main/java/org/bukkit/permissions/Permissible.java
++++ b/src/main/java/org/bukkit/permissions/Permissible.java
+@@ -126,4 +126,34 @@ public interface Permissible extends ServerOperator {
+      */
+     @NotNull
+     public Set<PermissionAttachmentInfo> getEffectivePermissions();
++
++    // Paper start - add TriState permission checks
++    /**
++     * Checks if this object has a permission set and, if it is set, the value of the permission.
++     *
++     * @param permission the permission to check
++     * @return a tri-state of if the permission is set and, if it is set, it's value
++     */
++    default net.kyori.adventure.util.@NotNull TriState permissionValue(final @NotNull Permission permission) {
++        if (this.isPermissionSet(permission)) {
++            return net.kyori.adventure.util.TriState.byBoolean(this.hasPermission(permission));
++        } else {
++            return net.kyori.adventure.util.TriState.NOT_SET;
++        }
++    }
++
++    /**
++     * Checks if this object has a permission set and, if it is set, the value of the permission.
++     *
++     * @param permission the permission to check
++     * @return a tri-state of if the permission is set and, if it is set, it's value
++     */
++    default net.kyori.adventure.util.@NotNull TriState permissionValue(final @NotNull String permission) {
++        if (this.isPermissionSet(permission)) {
++            return net.kyori.adventure.util.TriState.byBoolean(this.hasPermission(permission));
++        } else {
++            return net.kyori.adventure.util.TriState.NOT_SET;
++        }
 +    }
 +    // Paper end
  }

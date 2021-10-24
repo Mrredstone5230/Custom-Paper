@@ -16,7 +16,7 @@ handling that should have been handled synchronously will be handled
 synchronously when the server gets shut down.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 16a5fb9ef97170f337ede5da0646dcdd233f7b4e..bdfa5c65e41edb7cdcb5a0fff54d9384a9598028 100644
+index 3a7bf5483380624e50ab3cbcd48aa5e34f807f51..3ca73d8c4709d6a95bc8f6b81b977a069f9cba17 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2287,7 +2287,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -29,10 +29,10 @@ index 16a5fb9ef97170f337ede5da0646dcdd233f7b4e..bdfa5c65e41edb7cdcb5a0fff54d9384
  
      public boolean isDebugging() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 0d2f6680af8a678b4b07a6a3ba809128c69563e7..46a1c05f3321ddf34efc4f5fb6b607188a8c4939 100644
+index 67eb0b97d6ca74e815140eea7f5262b55f6f8e6e..0dbab8b372d174f343c7d57b147692a68ba2fb95 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1982,7 +1982,7 @@ public final class CraftServer implements Server {
+@@ -2004,7 +2004,7 @@ public final class CraftServer implements Server {
  
      @Override
      public boolean isPrimaryThread() {

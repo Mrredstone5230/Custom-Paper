@@ -6,7 +6,7 @@ Subject: [PATCH] Implement EntityKnockbackByEntityEvent
 This event is called when an entity receives knockback by another entity.
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 3be95347badafc35990f5fbb1c0be77b8702bc64..bfec0ae49c74ec5f6762140199cbfaf9e87a047c 100644
+index a7f6127aae3c35d3570cba31cbf7a9be34e303b2..85aae87d03219a53e5aec2b9983dac2831aff82e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -1437,7 +1437,7 @@ public abstract class LivingEntity extends Entity {
@@ -27,7 +27,7 @@ index 3be95347badafc35990f5fbb1c0be77b8702bc64..bfec0ae49c74ec5f6762140199cbfaf9
      }
  
      private boolean checkTotemDeathProtection(DamageSource source) {
-@@ -1737,6 +1737,11 @@ public abstract class LivingEntity extends Entity {
+@@ -1738,6 +1738,11 @@ public abstract class LivingEntity extends Entity {
      }
  
      public void knockback(double strength, double x, double z) {
@@ -39,7 +39,7 @@ index 3be95347badafc35990f5fbb1c0be77b8702bc64..bfec0ae49c74ec5f6762140199cbfaf9
          strength *= 1.0D - this.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
          if (strength > 0.0D) {
              this.hasImpulse = true;
-@@ -1744,6 +1749,15 @@ public abstract class LivingEntity extends Entity {
+@@ -1745,6 +1750,15 @@ public abstract class LivingEntity extends Entity {
              Vec3 vec3d1 = (new Vec3(x, 0.0D, z)).normalize().scale(strength);
  
              this.setDeltaMovement(vec3d.x / 2.0D - vec3d1.x, this.onGround ? Math.min(0.4D, vec3d.y / 2.0D + strength) : vec3d.y, vec3d.z / 2.0D - vec3d1.z);
@@ -82,7 +82,7 @@ index f6fd39823f04f8071c616d40a838b01e7159c5a1..e1cdf3ce38404d3f40be59e4cd3ad2b9
              serverLevel.playSound((Player)null, pathfinderMob, this.getImpactSound.apply(pathfinderMob), SoundSource.HOSTILE, 1.0F, 1.0F);
          } else {
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 157abba796981cf2d1b0b17ccd376de10c782a30..72b7c6654c68daa2591d55ff62d4a6ba7ae25618 100644
+index ea4e8680fc85d6c88078667b96e4412503713a37..7d09d12fe4d8a01ae5849f967afcef1dcc773a04 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
 @@ -1232,7 +1232,7 @@ public abstract class Player extends LivingEntity {

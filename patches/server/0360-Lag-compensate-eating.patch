@@ -7,7 +7,7 @@ When the server is lagging, players will wait longer when eating.
 Change to also use a time check instead if it passes.
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8e07212a0e943ed698e5c7dc32ce17ffe90cd38e..9f108e1327f09d5c4876b096b50c62866c2fd6d4 100644
+index 55ac5e8cad4c7eee3d8b165698200e9afcd44594..50d180daff7258795d476b9cd43412fba2fba50f 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3498,6 +3498,11 @@ public abstract class LivingEntity extends Entity {

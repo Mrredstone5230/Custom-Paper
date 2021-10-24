@@ -5,10 +5,10 @@ Subject: [PATCH] Add sun related API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 5d0e56a2c8fb6f801643928f8b75e06cdff83a52..4edfe886ae753f1c9e90be2bff69483c330287ae 100644
+index 034c2886b4e29be40fa2e5e213a7457d803c0f55..a6884bde5e6e717c5f37b0b96070b44f1253ce35 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -662,6 +662,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -664,6 +664,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          }
      }
  

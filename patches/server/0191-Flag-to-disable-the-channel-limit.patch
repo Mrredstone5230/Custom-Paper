@@ -9,7 +9,7 @@ e.g. servers which allow and support the usage of mod packs.
 provide an optional flag to disable this check, at your own risk.
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index f006b9ba8ebad98b3e679d7049bd9244f72a9348..1ad37b47a64700f9fd895afb26f8b07c0cad72d5 100644
+index b88405f21c09f56b0f94b407e3271e421f7a10c3..fbb4d97e1f525570ae86d1754af3063899cd88e2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -150,6 +150,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -20,7 +20,7 @@ index f006b9ba8ebad98b3e679d7049bd9244f72a9348..1ad37b47a64700f9fd895afb26f8b07c
      // Paper end
  
      public CraftPlayer(CraftServer server, ServerPlayer entity) {
-@@ -1608,7 +1609,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1609,7 +1610,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
  
      public void addChannel(String channel) {
