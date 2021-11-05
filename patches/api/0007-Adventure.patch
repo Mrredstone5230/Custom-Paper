@@ -7,15 +7,15 @@ Co-authored-by: zml <zml@stellardrift.ca>
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 3a395a44ff50a77895341bbbfb8c81deede41b8b..0a49a70a8f70e9b0af1eb5cff10884b98f86da7d 100644
+index ca45f6ce0bc9f57158f3be6f56a3a7566e5ee720..9e3dfc99ce2369e20bcc6a1c1ef81c1985ee6332 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -10,6 +10,19 @@ java {
      withJavadocJar()
  }
  
-+val adventureVersion = "4.9.2"
-+val apiAndDocs by configurations.creating {
++val adventureVersion = "4.9.3"
++val apiAndDocs: Configuration by configurations.creating {
 +    attributes {
 +        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.DOCUMENTATION))
 +        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
@@ -42,11 +42,19 @@ index 3a395a44ff50a77895341bbbfb8c81deede41b8b..0a49a70a8f70e9b0af1eb5cff10884b9
  
      compileOnly("org.apache.maven:maven-resolver-provider:3.8.1")
      compileOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.0")
-@@ -67,10 +85,17 @@ tasks.jar {
+@@ -68,10 +86,25 @@ tasks.jar {
  }
  
- tasks.withType<Javadoc>().configureEach {
-+    (options as CoreJavadocOptions).addStringOption("sourcepath", apiAndDocs.resolvedConfiguration.files.joinToString(separator = File.pathSeparator, transform = File::getPath))
+ tasks.withType<Javadoc> {
++    inputs.files(apiAndDocs)
++        .ignoreEmptyDirectories()
++        .withPropertyName(apiAndDocs.name + "-configuration")
++    doFirst {
++        (options as CoreJavadocOptions).addStringOption(
++            "sourcepath",
++            apiAndDocs.resolvedConfiguration.files.joinToString(separator = File.pathSeparator, transform = File::getPath)
++        )
++    }
      (options as StandardJavadocDocletOptions).links(
          "https://guava.dev/releases/21.0/api/docs/",
          "https://javadoc.io/doc/org.yaml/snakeyaml/1.28/",
@@ -1539,7 +1547,7 @@ index 25a6f9313a1953def7470e411b53016f2ca14bef..03d8ac1b41659540d7eb3d7e218cdfaa
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999cec151168 100644
+index 3da218eeaa2910487f643918d948264cf83c4337..d0a92eeb3ecfcacf529db8336f7902a66a5f408a 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -33,7 +33,28 @@ import org.jetbrains.annotations.Nullable;
@@ -1712,7 +1720,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      /**
       * Says a message (or runs a command).
       *
-@@ -475,6 +556,26 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -480,6 +561,26 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Deprecated
      public boolean sendChunkChange(@NotNull Location loc, int sx, int sy, int sz, @NotNull byte[] data);
  
@@ -1739,7 +1747,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      /**
       * Send a sign change. This fakes a sign change packet for a user at
       * a certain location. This will not actually change the world in any way.
-@@ -487,9 +588,75 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -492,9 +593,75 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param loc the location of the sign
       * @param lines the new text on the sign or null to clear it
@@ -1815,7 +1823,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines) throws IllegalArgumentException;
  
      /**
-@@ -508,7 +675,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -513,7 +680,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if dyeColor is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
@@ -1825,7 +1833,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
  
      /**
-@@ -528,7 +697,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -533,7 +702,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if dyeColor is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
@@ -1835,7 +1843,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor, boolean hasGlowingText) throws IllegalArgumentException;
  
      /**
-@@ -1020,7 +1191,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1025,7 +1196,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param title Title text
       * @param subtitle Subtitle text
@@ -1844,7 +1852,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
       */
      @Deprecated
      public void sendTitle(@Nullable String title, @Nullable String subtitle);
-@@ -1039,7 +1210,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1044,7 +1215,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param fadeIn time in ticks for titles to fade in. Defaults to 10.
       * @param stay time in ticks for titles to stay. Defaults to 70.
       * @param fadeOut time in ticks for titles to fade out. Defaults to 20.
@@ -1854,7 +1862,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
  
      /**
-@@ -1266,6 +1439,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1271,6 +1444,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public int getClientViewDistance();
  
@@ -1869,7 +1877,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      /**
       * Gets the player's estimated ping in milliseconds.
       *
-@@ -1291,8 +1472,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1296,8 +1477,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * they wish.
       *
       * @return the player's locale
@@ -1880,7 +1888,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      public String getLocale();
  
      /**
-@@ -1310,6 +1493,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1315,6 +1498,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void openBook(@NotNull ItemStack book);
  
@@ -1895,7 +1903,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
      // Spigot start
      public class Spigot extends Entity.Spigot {
  
-@@ -1364,11 +1555,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1369,11 +1560,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
              throw new UnsupportedOperationException("Not supported yet.");
          }
  
@@ -1909,7 +1917,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
          @Override
          public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
-@@ -1379,7 +1572,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1384,7 +1577,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param component the components to send
@@ -1919,7 +1927,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1389,7 +1584,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1394,7 +1589,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param components the components to send
@@ -1929,7 +1937,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1400,7 +1597,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1405,7 +1602,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param component the components to send
@@ -1939,7 +1947,7 @@ index 6c910e09eda6f4f08226ccc75189171015a72b85..696bf438012fd93f38495024ca49999c
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @Nullable UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1411,7 +1610,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1416,7 +1615,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param components the components to send
