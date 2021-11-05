@@ -11,6 +11,7 @@ Custom Features
 ------
 * Faster turtle egg hatch time
 * Maxed book level for villagers
+* Cheapest books for villagers
 * Faster water/snow cauldrons, but mainly snow
 * Instant-minable deepslate (No sound for the client though :\)
 * Better trident spawn rate

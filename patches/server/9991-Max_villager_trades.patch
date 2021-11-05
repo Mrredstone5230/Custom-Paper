@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Mrredstone5230 <sebastienduf@icloud.com>
 Date: Fri, 2 Jul 2021 22:11:11 +0100
-Subject: Maxed villager trades
+Subject: Maxed and cheaped villager trades
 
 diff --git a/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java b/src/main/java/net/minecraft/world/entity/npc/VillagerTrades.java
 index 314617cb0..190dc7656 100644
@@ -14,5 +14,6 @@ index 314617cb0..190dc7656 100644
 -            int i = Mth.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
 +            int i = enchantment.getMaxLevel();
              ItemStack itemStack = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, i));
-             int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
+-            int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
++            int j = 2 + 3 * i;
              if (enchantment.isTreasureOnly()) {
