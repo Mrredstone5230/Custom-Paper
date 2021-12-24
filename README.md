@@ -1,3 +1,8 @@
+**This fork is outdated and not supported anymore. It has been replaced by https://github.com/Mrredstone5230/custom-paper-patches.
+⚠️THIS ARCHIVE IS STILL VULNERABLE FROM LOG4SHELL, SO DO NOT USE IT!!!⚠️**
+
+
+
 My custom Paper Fork ![GitHub Workflow Status (branch)](https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fwww.redserv.net%2Fjenkins%2Fjob%2FCustom%2520Paper%2F)
 ===========
 
